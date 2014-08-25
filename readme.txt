@@ -1,10 +1,10 @@
 Name: Date of Birth on Registration
 Description: Adds options to require a date of birth in the registration form, and to deny users under a certain age.
-Website: http://mattrogowski.co.uk
-Author: MattRogowski
+Website: https://github.com/MattRogowski/Date-of-Birth-on-Registration
+Author: Matt Rogowski
 Authorsite: http://mattrogowski.co.uk
-Version: 0.4
-Compatibility: 1.6.x
+Version: 1.0
+Compatibility: 1.6.x, 1.8.x
 Files: 2
 Templates added: 1
 Template changes: 1
@@ -26,8 +26,9 @@ Change Log:
 05/10/10 - v0.1 -> v0.2 -> Fixed bug where the check would still be run in the Mod CP and Admin CP when editing a profile. Now only checks when you register or edit your own account. To upgrade, reupload ./inc/plugins/dobonreg.php.
 13/10/10 - v0.2 -> v0.3 -> Fixed bug where you couldn't edit your birthday properly in the User CP. To upgrade, deactivate, reupload ./inc/plugins/dobonreg.php, activate.
 23/10/10 - v0.3 -> v0.4 -> Improved how the birthday is validated and stopped bug where same error would be shown twice. One setting added, added ability to stop people registering or viewing forum if they tried to register and entered an underaged birthday. To upgrade, deactivate, reupload ./inc/plugins/dobonreg.php and ./inc/languages/english/dobonreg.lang.php, activate.
+25/08/14 - v0.4 -> v1.0 -> MyBB 1.8 compatible. To upgrade, deactivate, reupload ./inc/plugins/dobonreg.php, activate.
 
-Copyright 2010 Matthew Rogowski
+Copyright 2014 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

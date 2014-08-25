@@ -1,8 +1,8 @@
 <?php
 /**
- * Date of Birth on Registration 0.4
+ * Date of Birth on Registration 1.0
 
- * Copyright 2010 Matthew Rogowski
+ * Copyright 2014 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ function dobonreg_info()
 	return array(
 		"name" => "Date of Birth on Registration",
 		"description" => "Adds option to add your date of birth in the registration form.",
-		"website" => "http://mattrogowski.co.uk",
-		"author" => "MattRogowski",
+		"website" => "https://github.com/MattRogowski/Date-of-Birth-on-Registration",
+		"author" => "Matt Rogowski",
 		"authorsite" => "http://mattrogowski.co.uk",
-		"version" => "0.4",
-		"compatibility" => "16*",
+		"version" => "1.0",
+		"compatibility" => "16*,18*",
 		"guid" => "e212d0a10588d95c5b2c560d7f43e3ab"
 	);
 }
@@ -112,7 +112,7 @@ global=Block from forum completely",
 		"template" => "<br />
 <fieldset class=\"trow2\">
 <legend><strong>{\$lang->date_of_birth}</strong></legend>
-<table cellspacing=\"0\" cellpadding=\"{\$theme['tablespace']}\">
+<table cellspacing=\"{\$theme['borderwidth']}\" cellpadding=\"{\$theme['tablespace']}\">
 <tr>
 <td><span class=\"smalltext\"><label for=\"referrer\">{\$dobonreg_desc}</label></span></td>
 </tr>
@@ -129,7 +129,7 @@ global=Block from forum completely",
 			"title" => $db->escape_string($template['title']),
 			"template" => $db->escape_string($template['template']),
 			"sid" => "-1",
-			"version" => "1600",
+			"version" => "1800",
 			"dateline" => TIME_NOW
 		);
 		$db->insert_query("templates", $insert);
@@ -174,7 +174,7 @@ function dobonreg()
 
 function dbonreg_register()
 {
-	global $mybb, $lang, $templates, $dobonreg;
+	global $mybb, $lang, $templates, $theme, $dobonreg;
 	
 	$lang->load("dobonreg");
 	
