@@ -1,8 +1,8 @@
 <?php
 /**
- * Date of Birth on Registration 1.0
+ * Date of Birth on Registration 1.0.0
 
- * Copyright 2014 Matthew Rogowski
+ * Copyright 2016 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ function dobonreg_info()
 		"description" => "Adds option to add your date of birth in the registration form.",
 		"website" => "https://github.com/MattRogowski/Date-of-Birth-on-Registration",
 		"author" => "Matt Rogowski",
-		"authorsite" => "http://mattrogowski.co.uk",
-		"version" => "1.0",
+		"authorsite" => "https://matt.rogow.ski",
+		"version" => "1.0.0",
 		"compatibility" => "16*,18*",
-		"guid" => "e212d0a10588d95c5b2c560d7f43e3ab"
+		"codename" => "dobonreg"
 	);
 }
 
