@@ -1,8 +1,8 @@
 <?php
 /**
- * Date of Birth on Registration 1.0.0
+ * Date of Birth on Registration 1.0.1
 
- * Copyright 2016 Matthew Rogowski
+ * Copyright 2017 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,14 @@ $plugins->add_hook("usercp_do_profile_start", "dobonreg");
 $plugins->add_hook("global_start", "dobonreg_ban_check");
 $plugins->add_hook("member_register_start", "dobonreg_ban_check");
 
+global $templatelist;
+
+if($templatelist)
+{
+	$templatelist .= ',';
+}
+$templatelist .= 'dobonreg';
+
 function dobonreg_info()
 {
 	return array(
@@ -36,7 +44,7 @@ function dobonreg_info()
 		"website" => "https://github.com/MattRogowski/Date-of-Birth-on-Registration",
 		"author" => "Matt Rogowski",
 		"authorsite" => "https://matt.rogow.ski",
-		"version" => "1.0.0",
+		"version" => "1.0.1",
 		"compatibility" => "16*,18*",
 		"codename" => "dobonreg"
 	);
@@ -45,11 +53,11 @@ function dobonreg_info()
 function dobonreg_activate()
 {
 	global $db;
-	
+
 	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
-	
+
 	dobonreg_deactivate();
-	
+
 	$settings_group = array(
 		"name" => "dobonreg",
 		"title" => "Date of Birth on Registration Settings",
@@ -59,7 +67,7 @@ function dobonreg_activate()
 	);
 	$db->insert_query("settinggroups", $settings_group);
 	$gid = $db->insert_id();
-	
+
 	$settings = array();
 	$settings[] = array(
 		"name" => "dobonreg_type",
@@ -103,9 +111,9 @@ global=Block from forum completely",
 		$db->insert_query("settings", $insert);
 		$i++;
 	}
-	
+
 	rebuild_settings();
-	
+
 	$templates = array();
 	$templates[] = array(
 		"title" => "dobonreg",
@@ -134,18 +142,18 @@ global=Block from forum completely",
 		);
 		$db->insert_query("templates", $insert);
 	}
-	
+
 	find_replace_templatesets("member_register", "#".preg_quote('{$requiredfields}')."#i", '{$requiredfields}{$dobonreg}');
 }
 
 function dobonreg_deactivate()
 {
 	global $db;
-	
+
 	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
-	
+
 	$db->delete_query("settinggroups", "name = 'dobonreg'");
-	
+
 	$settings = array(
 		"dobonreg_type",
 		"dobonreg_agelimit",
@@ -153,31 +161,31 @@ function dobonreg_deactivate()
 	);
 	$settings = "'" . implode("','", $settings) . "'";
 	$db->delete_query("settings", "name IN ({$settings})");
-	
+
 	rebuild_settings();
-	
+
 	$templates = array(
 		"dobonreg"
 	);
 	$templates = "'" . implode("','", $templates) . "'";
 	$db->delete_query("templates", "title IN ({$templates})");
-	
+
 	find_replace_templatesets("member_register", "#".preg_quote('{$dobonreg}')."#i", '', 0);
 }
 
 function dobonreg()
 {
 	global $plugins;
-	
+
 	$plugins->add_hook("datahandler_user_validate", "dobonreg_check");
 }
 
 function dbonreg_register()
 {
 	global $mybb, $lang, $templates, $theme, $dobonreg;
-	
+
 	$lang->load("dobonreg");
-	
+
 	switch($mybb->settings['dobonreg_type'])
 	{
 		case "required_full":
@@ -189,7 +197,7 @@ function dbonreg_register()
 		default:
 			$dobonreg_desc = $lang->dobonreg_optional;
 	}
-	
+
 	$bday1s = "";
 	$bday1s .= "<label for=\"bday1\" class=\"smalltext\">{$lang->day}:</label> <select name=\"bday1\" id=\"bday1\">\n";
 	$bday1s .= "<option value=\"\"></option>\n";
@@ -198,7 +206,7 @@ function dbonreg_register()
 		$bday1s .= "<option value=\"{$i}\">{$i}</option>\n";
 	}
 	$bday1s .= "</select>\n";
-	
+
 	$bday2s = "";
 	$bday2s .= "<label for=\"bday2\" class=\"smalltext\">{$lang->month}:</label> <select name=\"bday2\" id=\"bday2\">\n";
 	$bday2s .= "<option value=\"\"></option>\n";
@@ -208,26 +216,26 @@ function dbonreg_register()
 		$bday2s .= "<option value=\"{$i}\">{$lang->$month}</option>\n";
 	}
 	$bday2s .= "</select>\n";
-	
+
 	eval("\$dobonreg = \"".$templates->get('dobonreg')."\";");
 }
 
-function dobonreg_check() 
+function dobonreg_check()
 {
 	global $mybb, $lang, $userhandler;
-	
+
 	$lang->load("dobonreg");
-	
+
 	$bday1 = intval($mybb->input['bday1']);
 	$bday2 = intval($mybb->input['bday2']);
 	$bday3 = intval($mybb->input['bday3']);
-	
+
 	$birthday = array(
 		"day" => $bday1,
 		"month" => $bday2,
 		"year" => $bday3
 	);
-	
+
 	$userhandler->data['birthday'] = $birthday;
 	if(!$userhandler->verify_birthday())
 	{
@@ -240,14 +248,14 @@ function dobonreg_check()
 function dobonreg_ban_check()
 {
 	global $mybb, $lang;
-	
+
 	$lang->load("dobonreg");
-	
+
 	if($mybb->settings['dobonreg_underage_ban'] == "none" || $mybb->settings['dobonreg_agelimit'] <= 0 || $mybb->cookies['dobonreg'] != 1)
 	{
 		return;
 	}
-	
+
 	if($mybb->cookies['dobonreg'] == 1 && ($mybb->settings['dobonreg_underage_ban'] == "reg" && THIS_SCRIPT == "member.php" && $mybb->input['action'] == "register") || $mybb->settings['dobonreg_underage_ban'] == "global")
 	{
 		if($mybb->settings['dobonreg_underage_ban'] == "reg" && THIS_SCRIPT == "member.php" && $mybb->input['action'] == "register")
@@ -265,9 +273,9 @@ function dobonreg_ban_check()
 function dobonreg_validate_birthday($birthday)
 {
 	global $mybb, $lang, $userhandler;
-	
+
 	$lang->load("dobonreg");
-	
+
 	if($mybb->settings['dobonreg_type'] != "optional")
 	{
 		if(!$birthday['day'] || !$birthday['month'] || ($mybb->settings['dobonreg_type'] == "required_full" && !$birthday['year']))
@@ -283,7 +291,7 @@ function dobonreg_validate_birthday($birthday)
 			return false;
 		}
 	}
-	
+
 	if($mybb->settings['dobonreg_agelimit'] > 0 && $mybb->settings['dobonreg_type'] == "required_full")
 	{
 		$bday_time = @mktime(0, 0, 0, $birthday['month'], $birthday['day'], $birthday['year']);
@@ -297,7 +305,7 @@ function dobonreg_validate_birthday($birthday)
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 ?>
