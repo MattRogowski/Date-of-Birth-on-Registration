@@ -1,8 +1,8 @@
 <?php
 /**
- * Date of Birth on Registration 1.0.0 - Language File
+ * Date of Birth on Registration 1.0.1 - Language File
 
- * Copyright 2016 Matthew Rogowski
+ * Copyright 2017 Matthew Rogowski
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
